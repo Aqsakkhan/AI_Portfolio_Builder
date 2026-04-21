@@ -59,9 +59,15 @@ router.get('/:slug', async (req, res) => {
 // PUT /api/portfolio/:slug - update
 router.put('/:slug', async (req, res) => {
   const slug = sanitizeSlug(req.params.slug);
+  const { template, name, bio, skills, projects, experience, contact } = req.body;
+  const allowedUpdate = { template, name, bio, skills, projects, experience, contact };
+  // Remove undefined fields
+  Object.keys(allowedUpdate).forEach(
+    (k) => allowedUpdate[k] === undefined && delete allowedUpdate[k]
+  );
   const portfolio = await Portfolio.findOneAndUpdate(
     { slug },
-    { $set: req.body },
+    { $set: allowedUpdate },
     { new: true, runValidators: true }
   );
   if (!portfolio) return res.status(404).json({ error: 'Portfolio not found' });
