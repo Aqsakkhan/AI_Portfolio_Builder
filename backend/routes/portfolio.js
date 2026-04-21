@@ -1,7 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const rateLimit = require('express-rate-limit');
 const { nanoid } = require('nanoid');
 const Portfolio = require('../models/Portfolio');
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+router.use(limiter);
 
 function generateSlug(name) {
   const base = name
@@ -10,6 +20,11 @@ function generateSlug(name) {
     .replace(/\s+/g, '-')
     .slice(0, 30);
   return `${base}-${nanoid(6)}`;
+}
+
+// Sanitize slug to allow only safe characters
+function sanitizeSlug(slug) {
+  return String(slug).replace(/[^a-z0-9-]/g, '');
 }
 
 // POST /api/portfolio - create
@@ -35,15 +50,17 @@ router.post('/', async (req, res) => {
 
 // GET /api/portfolio/:slug - get by slug
 router.get('/:slug', async (req, res) => {
-  const portfolio = await Portfolio.findOne({ slug: req.params.slug });
+  const slug = sanitizeSlug(req.params.slug);
+  const portfolio = await Portfolio.findOne({ slug });
   if (!portfolio) return res.status(404).json({ error: 'Portfolio not found' });
   res.json(portfolio);
 });
 
 // PUT /api/portfolio/:slug - update
 router.put('/:slug', async (req, res) => {
+  const slug = sanitizeSlug(req.params.slug);
   const portfolio = await Portfolio.findOneAndUpdate(
-    { slug: req.params.slug },
+    { slug },
     { $set: req.body },
     { new: true, runValidators: true }
   );
@@ -53,15 +70,17 @@ router.put('/:slug', async (req, res) => {
 
 // DELETE /api/portfolio/:slug - delete
 router.delete('/:slug', async (req, res) => {
-  const portfolio = await Portfolio.findOneAndDelete({ slug: req.params.slug });
+  const slug = sanitizeSlug(req.params.slug);
+  const portfolio = await Portfolio.findOneAndDelete({ slug });
   if (!portfolio) return res.status(404).json({ error: 'Portfolio not found' });
   res.json({ message: 'Portfolio deleted successfully' });
 });
 
 // POST /api/portfolio/:slug/publish - publish
 router.post('/:slug/publish', async (req, res) => {
+  const slug = sanitizeSlug(req.params.slug);
   const portfolio = await Portfolio.findOneAndUpdate(
-    { slug: req.params.slug },
+    { slug },
     { $set: { isPublished: true } },
     { new: true }
   );
