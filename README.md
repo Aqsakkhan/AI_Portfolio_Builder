@@ -1,15 +1,16 @@
-# AI Portfolio Builder
+# 🚀 AI Portfolio Builder
 
 A full-stack AI-powered portfolio builder application that allows developers to create stunning professional portfolios with AI-enhanced content.
 
-## Tech Stack
+---
 
-- **Frontend**: React (Vite), Tailwind CSS, React Router v6
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB (Mongoose)
-- **AI**: OpenAI API (gpt-3.5-turbo)
+## 📌 Project Goal
 
-## Features
+To simplify portfolio creation for students and developers by automating design, content writing, and deployment using AI.
+
+---
+
+## ✨ Features
 
 - 🎨 **3 Templates**: Minimal, Developer (dark/terminal), and Creative (gradient)
 - 🤖 **AI Enhancement**: Enhance bio, project descriptions, and work experience with GPT-3.5
@@ -17,6 +18,17 @@ A full-stack AI-powered portfolio builder application that allows developers to 
 - 📄 **PDF Export**: Download your portfolio as PDF using browser print
 - 🌐 **Publish & Share**: Get a unique shareable URL for your portfolio
 - 📱 **Responsive Design**: Works on all screen sizes
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React (Vite), Tailwind CSS, React Router v6
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB (Mongoose)
+- **AI**: OpenAI API (gpt-3.5-turbo)
+
+---
 
 ## Project Structure
 
@@ -57,6 +69,8 @@ AI_Portfolio_Builder/
 │   └── package.json
 └── README.md
 ```
+
+---
 
 ## Getting Started
 
@@ -100,6 +114,8 @@ OPENAI_API_KEY=your_openai_api_key_here
 VITE_API_URL=http://localhost:5000
 ```
 
+---
+
 ## API Endpoints
 
 ### Portfolio
@@ -114,6 +130,14 @@ VITE_API_URL=http://localhost:5000
 - `POST /api/ai/enhance-project` - Enhance project description
 - `POST /api/ai/enhance-experience` - Enhance work experience
 - `POST /api/ai/suggest-skills` - Suggest skills based on bio/projects
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to fork the repo and submit a pull request.
+
+---
 
 ## License
 
